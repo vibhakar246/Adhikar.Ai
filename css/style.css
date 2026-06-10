@@ -1,0 +1,214 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#081120;
+color:white;
+overflow-x:hidden;
+}
+
+.hero-bg{
+position:fixed;
+inset:0;
+z-index:-1;
+
+background:
+radial-gradient(
+circle at 20% 20%,
+rgba(0,212,255,.15),
+transparent 30%
+),
+
+radial-gradient(
+circle at 80% 30%,
+rgba(161,0,255,.15),
+transparent 30%
+),
+
+radial-gradient(
+circle at 50% 80%,
+rgba(255,140,0,.12),
+transparent 30%
+),
+
+#081120;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:30px 80px;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:24px;
+font-weight:700;
+}
+
+.brand img{
+height:70px;
+width:auto;
+object-fit:contain;
+}
+
+.nav-links{
+display:flex;
+gap:40px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+opacity:.8;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero{
+  min-height:100vh;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  padding:80px 20px;
+}
+
+.hero-content{
+  max-width:1000px;
+}
+
+/* Logo */
+.hero-logo img{
+
+  width:120px;
+
+  height:auto;
+
+  display:block;
+
+  margin:auto;
+}
+/* Badge */
+
+.badge{
+
+  display:inline-block;
+
+  padding:12px 24px;
+
+  border-radius:999px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.15);
+
+  margin-bottom:25px;
+
+  color:#ffffff;
+
+  font-size:14px;
+}
+
+/* Heading */
+
+.hero h1{
+
+  font-size:72px;
+
+  font-weight:900;
+
+  line-height:1.05;
+
+  margin-bottom:25px;
+
+  color:#ffffff;
+}
+
+/* Description */
+
+.hero-description{
+
+  max-width:750px;
+
+  margin:auto;
+
+  color:#cbd5e1;
+
+  font-size:22px;
+
+  line-height:1.8;
+}
+
+/* Buttons */
+
+.cta-group{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:20px;
+
+  margin-top:40px;
+}
+
+.btn{
+
+  padding:16px 32px;
+
+  border-radius:16px;
+
+  text-decoration:none;
+
+  font-weight:700;
+
+  transition:.3s;
+}
+
+.btn:hover{
+
+  transform:
+    translateY(-3px);
+}
+
+.primary{
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #00d4ff
+    );
+
+  color:white;
+
+  box-shadow:
+    0 10px 30px rgba(37,99,235,.35);
+}
+
+.secondary{
+
+  border:
+    1px solid rgba(255,255,255,.25);
+
+  color:white;
+
+  background:
+    rgba(255,255,255,.05);
+}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Adhikar.ai – Know Your Rights. Protect Your Future.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 10% 20%, #f8faff, #eef2f9);
+      color: #13294b;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+    }
+
+    /* ---------- Your Logo Styles (exactly as you provided) ---------- */
+    :root {
+      --dark-navy: #0b1a30;
+      --electric-blue: #1a62ff;
+      --teal-bright: #00f2fe;
+      --purple-accent: #6a1b9a;
+      --orange-glow: #ff6d00;
+    }
+
+    .logo-container {
+      text-align: center;
+      padding: 20px 0 10px 0;
+      background: transparent;
+      border-radius: 24px;
+      margin-bottom: 1rem;
+    }
+
+    .logo-svg {
+      width: 280px;
+      height: auto;
+      filter: drop-shadow(0 10px 15px rgba(0, 198, 255, 0.1));
+    }
+
+    .brand-text {
+      font-size: 52px;
+      font-weight: 850;
+      color: var(--dark-navy);
+      margin: 5px 0 0 0;
+      letter-spacing: -2px;
+    }
+
+    .ai-dot {
+      color: var(--electric-blue);
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 8px;
+    }
+
+    .tag-p { color: var(--dark-navy); }
+    .tag-r { color: var(--purple-accent); }
+    .tag-a { color: var(--orange-glow); }
+
+    /* ---------- Rest of landing page styles ---------- */
+    .user-greeting {
+      background: white;
+      border-radius: 2rem;
+      padding: 1rem 1.8rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      border: 1px solid #e2edff;
+    }
+    .greeting-text {
+      font-weight: 600;
+    }
+    .name-input {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+    #userName {
+      border: 1px solid #cbdde9;
+      border-radius: 60px;
+      padding: 0.6rem 1.2rem;
+      font-family: inherit;
+      background: #fefefe;
+    }
+    .btn-sm {
+      background: #0a2540;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 60px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .btn-sm:hover {
+      background: #1f4e72;
+    }
+    .hero {
+      text-align: center;
+      margin: 1rem 0 2rem;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(145deg, #02203c, #1f6392);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-sub {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #1d4a76;
+      margin-top: 0.5rem;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+      margin: 3rem 0;
+    }
+    .card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 1.8rem;
+      padding: 1.6rem;
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.6);
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      background: white;
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+    }
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+    .card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .dynamic-panel {
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 1.8rem;
+      margin: 2rem 0;
+      border: 1px solid #dee9f5;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.08);
+    }
+    .panel-title {
+      font-weight: 800;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .assistant-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .assist-btn {
+      background: #eef3fc;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .assist-btn.active {
+      background: #0a2540;
+      color: white;
+    }
+    .query-area {
+      margin: 1rem 0;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    #userQuery {
+      flex: 2;
+      padding: 0.9rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid #bdd4e8;
+      font-family: inherit;
+    }
+    .response-box {
+      background: #f0f5fe;
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      margin-top: 1rem;
+      border-left: 6px solid #1e4a76;
+    }
+    .upload-area {
+      background: #f9fbfe;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #dce7f2;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 700px) {
+      .container { padding: 1rem; }
+      .hero h1 { font-size: 2rem; }
+      .logo-svg { width: 200px; }
+      .brand-text { font-size: 36px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- === YOUR LOGO (exactly as provided, unchanged) === -->
+  <div class="logo-container">
+    <svg class="logo-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mainGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0b1a30; stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#0052d4; stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#00f2fe; stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#6a1b9a; stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#00c6ff; stop-opacity:1" />
+        </linearGradient>
+        <filter id="glass" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+        </filter>
+      </defs>
+      <path d="M 160 80 L 260 50 L 360 80 L 360 180 C 360 250 260 300 260 300 C 260 300 160 250 160 180 Z" 
+            fill="none" stroke="url(#mainGrad)" stroke-width="6" opacity="0.8"/>
+      <g stroke="url(#techGrad)" stroke-width="3" fill="none">
+        <path d="M 100 160 H 180" stroke-linecap="round"/>
+        <circle cx="95" cy="160" r="4" fill="url(#techGrad)"/>
+        <path d="M 80 190 H 150 L 170 210 H 200" stroke-linecap="round"/>
+        <circle cx="75" cy="190" r="5" fill="#6a1b9a"/>
+        <path d="M 110 230 H 170" stroke-linecap="round"/>
+        <circle cx="105" cy="230" r="4" fill="#ff6d00"/>
+      </g>
+      <path d="M 230 70 L 160 290 H 215 L 255 150 Z" fill="url(#mainGrad)"/>
+      <path d="M 260 70 L 330 290 H 275 L 250 170 Z" fill="url(#mainGrad)"/>
+      <path d="M 180 220 C 240 220 300 180 380 100 L 360 90 C 280 160 220 200 180 220 Z" fill="#00f2fe"/>
+      <g transform="translate(300, 150)">
+        <rect x="0" y="0" width="70" height="95" rx="10" fill="rgba(255,255,255,0.7)" stroke="#00c6ff" stroke-width="2"/>
+        <path d="M 15 25 L 35 15 L 55 25 C 55 40 35 50 35 50 C 35 50 15 40 15 25 Z" fill="#00c6ff" opacity="0.6"/>
+        <path d="M 28 35 L 33 40 L 42 30" stroke="white" stroke-width="3" fill="none"/>
+        <rect x="15" y="65" width="40" height="4" rx="2" fill="#00c6ff" opacity="0.4"/>
+        <rect x="15" y="75" width="30" height="4" rx="2" fill="#00c6ff" opacity="0.4"/>
+      </g>
+      <path d="M 350 70 Q 350 90 370 90 Q 350 90 350 110 Q 350 90 330 90 Q 350 90 350 70 Z" fill="#ffb300"/>
+    </svg>
+    <h1 class="brand-text">Adhikar<span class="ai-dot">.Ai</span></h1>
+    <div class="tagline">
+      <span class="tag-p">Your Policy.</span> 
+      <span class="tag-r">Your Rights.</span> 
+      <span class="tag-a">Our Ai.</span>
+    </div>
+  </div>
+
+  <!-- User dynamic greeting block -->
+  <div class="user-greeting">
+    <div class="greeting-text" id="dynamicGreeting">🤝 Welcome, Guest</div>
+    <div class="name-input">
+      <input type="text" id="userName" placeholder="Enter your name" value="Riya">
+      <button class="btn-sm" id="setNameBtn">Save & Personalize</button>
+    </div>
+  </div>
+
+  <!-- Hero section -->
+  <div class="hero">
+    <h1>Know Your Rights.<br>Protect Your Future.</h1>
+    <div class="hero-sub">India's AI-powered platform for insurance, banking, legal & citizen rights</div>
+  </div>
+
+  <!-- Feature cards -->
+  <div class="features">
+    <div class="card" data-domain="insurance">
+      <div class="card-icon">🛡️</div>
+      <h3>Insurance Intelligence</h3>
+      <p>Analyze policies, exclusions, claim readiness & missing documents.</p>
+    </div>
+    <div class="card" data-domain="banking">
+      <div class="card-icon">🏦</div>
+      <h3>Banking Assistant</h3>
+      <p>Loans, EMI obligations, notices, hidden charges — simplified.</p>
+    </div>
+    <div class="card" data-domain="legal">
+      <div class="card-icon">⚖️</div>
+      <h3>Legal Rights Guidance</h3>
+      <p>Simplify legal docs, decode terms, understand fundamental rights.</p>
+    </div>
+    <div class="card" data-domain="document">
+      <div class="card-icon">🤖</div>
+      <h3>AI Document Analysis</h3>
+      <p>Upload PDFs → summaries, risks, recommendations in seconds.</p>
+    </div>
+  </div>
+
+  <!-- Dynamic AI Assistant Panel -->
+  <div class="dynamic-panel">
+    <div class="panel-title"><span>✨</span> Adhikar AI Assistant <span style="font-size:0.8rem;">— dynamic advisor</span></div>
+    <div class="assistant-options">
+      <button class="assist-btn active" data-mode="rights">⚡ Know Your Rights</button>
+      <button class="assist-btn" data-mode="insurance">📄 Insurance Claim Help</button>
+      <button class="assist-btn" data-mode="banking">💰 Banking Disputes</button>
+      <button class="assist-btn" data-mode="legal">⚖️ Legal Simplifier</button>
+    </div>
+    <div class="query-area">
+      <input type="text" id="userQuery" placeholder="e.g., My health claim was rejected due to pre-existing condition ...">
+      <button class="btn-sm" id="askAiBtn">Get AI Insight →</button>
+    </div>
+    <div id="aiResponse" class="response-box">
+      💡 Select a domain or type your concern. Our AI will give personalized guidance based on Indian laws & IRDAI/RBI norms.
+    </div>
+    <div class="upload-area">
+      <strong>📎 Upload Document for Dynamic Analysis</strong>
+      <input type="file" id="dynamicFile" accept=".pdf,.jpg,.png,.txt">
+      <div id="fileAnalysisPreview" style="font-size:0.9rem; background:#eef2ff; border-radius:1rem; padding:0.6rem; display:none;"></div>
+      <p class="small-note" style="font-size:0.7rem;">🔐 Demo: AI extracts risks & rights based on file content simulation.</p>
+    </div>
+  </div>
+
+  <footer>
+    ⚖️ Adhikar.ai — Empowering citizens with transparent AI. Not legal advice. Always consult experts.
+  </footer>
+</div>
+
+<script>
+  // ----- USER DYNAMIC LOGIC -----
+  let currentUser = "Guest";
+  let activeMode = "rights";
+
+  function updateGreeting() {
+    const greetElem = document.getElementById('dynamicGreeting');
+    const hour = new Date().getHours();
+    let timeGreet = "Namaste";
+    if (hour < 12) timeGreet = "Good morning";
+    else if (hour < 17) timeGreet = "Good afternoon";
+    else timeGreet = "Good evening";
+    greetElem.innerHTML = `🙏 ${timeGreet}, ${currentUser}! Your rights, our priority.`;
+  }
+
+  document.getElementById('setNameBtn').addEventListener('click', () => {
+    let nameInput = document.getElementById('userName').value.trim();
+    if (nameInput === "") nameInput = "Friend";
+    currentUser = nameInput;
+    updateGreeting();
+    document.getElementById('aiResponse').innerHTML = `👋 Hi ${currentUser}, I'm Adhikar AI. Ask me about insurance claims, banking disputes, or upload any legal document.`;
+  });
+
+  const assistBtns = document.querySelectorAll('.assist-btn');
+  const cards = document.querySelectorAll('.card');
+  
+  function setActiveMode(mode) {
+    activeMode = mode;
+    assistBtns.forEach(btn => {
+      if (btn.getAttribute('data-mode') === mode) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+    const queryBox = document.getElementById('userQuery');
+    if (mode === 'rights') queryBox.placeholder = "e.g., Can bank levy penal charges without notice?";
+    else if (mode === 'insurance') queryBox.placeholder = "e.g., My health insurance claim was rejected for late submission";
+    else if (mode === 'banking') queryBox.placeholder = "e.g., Hidden processing fee on home loan";
+    else if (mode === 'legal') queryBox.placeholder = "e.g., What does 'force majeure' mean in my contract?";
+  }
+  
+  assistBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setActiveMode(btn.getAttribute('data-mode'));
+    });
+  });
+  
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const domain = card.getAttribute('data-domain');
+      if (domain === 'insurance') setActiveMode('insurance');
+      else if (domain === 'banking') setActiveMode('banking');
+      else if (domain === 'legal') setActiveMode('legal');
+      else if (domain === 'document') setActiveMode('rights');
+      const queryBox = document.getElementById('userQuery');
+      if (domain === 'insurance') queryBox.value = "My car insurance claim was partially rejected due to depreciation clause. What can I do?";
+      else if (domain === 'banking') queryBox.value = "Bank levied late payment fee despite auto-debit failure. Is this legal?";
+      else if (domain === 'legal') queryBox.value = "Explain Section 14 of Consumer Protection Act for defective product.";
+      else queryBox.value = "";
+    });
+  });
+  
+  function generateDynamicResponse(query, mode, userName) {
+    if (!query.trim()) {
+      return `🤖 **${userName}**, ask me anything about ${mode.toUpperCase()} rights. Example: "How to challenge an insurance repudiation?"`;
+    }
+    const q = query.toLowerCase();
+    if (mode === 'insurance') {
+      if (q.includes('reject') || q.includes('denied') || q.includes('claim')) {
+        return `📢 **${userName}**, under IRDAI regulations, if your insurance claim is rejected, you must receive a written reason. You can file a complaint with Insurance Ombudsman within 30 days. Key steps: gather all correspondence, policy copy, and rejection letter. Adhikar.ai suggests drafting a representation citing policy terms.`;
+      } else if (q.includes('exclusion') || q.includes('waiting')) {
+        return `⚠️ **${userName}**, exclusions & waiting periods are standard. However, some exclusions are unfair. Check if the exclusion was explicitly mentioned in the policy wording. You may challenge ambiguous exclusions under the principle of contra proferentem.`;
+      } else {
+        return `🔍 **${userName}**, for insurance concerns: Always review claim settlement ratio, file timely intimation, and document every call. Need specific help? Share your policy clause.`;
+      }
+    } else if (mode === 'banking') {
+      if (q.includes('hidden charge') || q.includes('fee')) {
+        return `🏦 **${userName}**, RBI mandates transparency on all charges. Banks cannot levy undisclosed fees. You can raise a dispute through the bank’s internal ombudsman or RBI’s CMS portal. Adhikar.ai can help draft a complaint letter.`;
+      } else if (q.includes('emi') || q.includes('loan')) {
+        return `📉 **${userName}**, under RBI guidelines, penal charges on EMI delays must be reasonable. If you face harassment, escalate to Banking Ombudsman. Also check for unfair reset clauses in your loan agreement.`;
+      } else {
+        return `💡 **${userName}**, banking rights include: free monthly statements, zero balance account for basic customers, and compensation for delayed credit reversals. Want a sample notice? Ask me.`;
+      }
+    } else if (mode === 'legal') {
+      if (q.includes('consumer')) {
+        return `⚖️ **${userName}**, Consumer Protection Act 2019 gives you right to file complaint in district forum (up to ₹1 crore). Deficiency in service or unfair trade practice – you can claim compensation plus litigation costs.`;
+      } else if (q.includes('contract') || q.includes('agreement')) {
+        return `📜 **${userName}**, ambiguous contract terms are interpreted against the drafter. Always highlight unfair clauses before signing. Adhikar.ai can simplify legal jargon and point out risky terms.`;
+      } else {
+        return `📚 **${userName}**, legal rights vary by context. For employment, tenancy, or consumer issues – document everything and send a legal notice via registered post. Want to draft a notice? I can guide.`;
+      }
+    } else {
+      if (q.includes('ombudsman') || q.includes('complaint')) {
+        return `🇮🇳 **${userName}**, you can approach Insurance Ombudsman (for claims up to ₹30L) or Banking Ombudsman (free). For legal matters, State Consumer Commission or Lok Adalat. Adhikar.ai can help find the right authority.`;
+      } else {
+        return `🔰 **${userName}**, your fundamental rights include right to information, right against exploitation, and consumer rights. Upload a notice or policy document for precise AI analysis.`;
+      }
+    }
+  }
+
+  document.getElementById('askAiBtn').addEventListener('click', () => {
+    const query = document.getElementById('userQuery').value;
+    const responseDiv = document.getElementById('aiResponse');
+    const dynamicAnswer = generateDynamicResponse(query, activeMode, currentUser);
+    responseDiv.innerHTML = `✨ <strong>Adhikar AI says:</strong><br>${dynamicAnswer}<br><small style="display:block; margin-top:8px;">🔹 Powered by Indian regulatory guidelines (IRDAI, RBI, Consumer Protection Act)</small>`;
+  });
+  
+  const fileUploader = document.getElementById('dynamicFile');
+  const previewDiv = document.getElementById('fileAnalysisPreview');
+  
+  fileUploader.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const fileName = file.name;
+    let analysis = `📄 File: ${fileName}<br>`;
+    if (fileName.toLowerCase().includes('insurance') || fileName.toLowerCase().includes('policy')) {
+      analysis += `🛡️ <strong>Insurance Analysis:</strong><br>✔️ Coverage verified: standard inclusions found.<br>⚠️ Risk: Pre-existing disease waiting period clause (48 months).<br>📌 Recommendation: Attach medical history & dispute if unreasonable exclusion.`;
+    } else if (fileName.toLowerCase().includes('bank') || fileName.toLowerCase().includes('loan') || fileName.toLowerCase().includes('statement')) {
+      analysis += `🏦 <strong>Banking Rights Scan:</strong><br>⚠️ Hidden charge alert: "Processing fee + GST, late payment penalty 18%".<br>✅ RBI guideline: penal charges must be proportionate. You may request waiver.`;
+    } else if (fileName.toLowerCase().includes('legal') || fileName.toLowerCase().includes('notice')) {
+      analysis += `⚖️ <strong>Legal Document Summary:</strong><br>✔️ Key clause: arbitration in Mumbai.<br>⚠️ Risk: one-sided indemnity. Recommendation: negotiate before signing.`;
+    } else {
+      analysis += `🤖 <strong>AI summary</strong><br>General document analysis: no critical red flags detected. Recommend checking termination clause and liability cap.`;
+    }
+    analysis += `<br><span style="font-size:0.75rem;">🔍 Dynamic context applied for ${currentUser}</span>`;
+    previewDiv.innerHTML = analysis;
+    previewDiv.style.display = 'block';
+  });
+  
+  document.getElementById('setNameBtn').click();
+  updateGreeting();
+  setActiveMode('rights');
+  document.getElementById('userQuery').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') document.getElementById('askAiBtn').click();
+  });
+</script>
+</body>
+</html>
