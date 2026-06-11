@@ -25,7 +25,7 @@
       padding: 1.5rem 2rem 3rem;
     }
 
-    /* ---------- Your Logo Styles (exactly as you provided) ---------- */
+    /* ---------- Logo Styles (exactly as provided) ---------- */
     :root {
       --dark-navy: #0b1a30;
       --electric-blue: #1a62ff;
@@ -91,6 +91,7 @@
     }
     .greeting-text {
       font-weight: 600;
+      font-size: 1.1rem;
     }
     .name-input {
       display: flex;
@@ -235,7 +236,8 @@
       margin-top: 3rem;
       padding-top: 1.5rem;
       border-top: 1px solid #dce7f2;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      color: #4a627a;
     }
     @media (max-width: 700px) {
       .container { padding: 1rem; }
@@ -294,11 +296,11 @@
     </div>
   </div>
 
-  <!-- User dynamic greeting block -->
+  <!-- User dynamic greeting block (NO pre-filled name, no "Riya") -->
   <div class="user-greeting">
-    <div class="greeting-text" id="dynamicGreeting">🤝 Welcome, Guest</div>
+    <div class="greeting-text" id="dynamicGreeting">✨ Your rights, our priority</div>
     <div class="name-input">
-      <input type="text" id="userName" placeholder="Enter your name" value="Riya">
+      <input type="text" id="userName" placeholder="Enter your name" value="">
       <button class="btn-sm" id="setNameBtn">Save & Personalize</button>
     </div>
   </div>
@@ -358,33 +360,58 @@
   </div>
 
   <footer>
-    ⚖️ Adhikar.ai — Empowering citizens with transparent AI. Not legal advice. Always consult experts.
+    ©2026 D&B inc All rights reserved. Various trademarks held by their respective owners.
   </footer>
 </div>
 
 <script>
-  // ----- USER DYNAMIC LOGIC -----
-  let currentUser = "Guest";
+  // No default name — no "Riya", no auto name. Only appears when user manually enters and saves.
+  let currentUserName = null;      // null means no custom name set
   let activeMode = "rights";
 
-  function updateGreeting() {
-    const greetElem = document.getElementById('dynamicGreeting');
+  // Helper: get time-based greeting without any name (pure time salute)
+  function getTimeBasedSalute() {
     const hour = new Date().getHours();
-    let timeGreet = "Namaste";
-    if (hour < 12) timeGreet = "Good morning";
-    else if (hour < 17) timeGreet = "Good afternoon";
-    else timeGreet = "Good evening";
-    greetElem.innerHTML = `🙏 ${timeGreet}, ${currentUser}! Your rights, our priority.`;
+    if (hour < 12) return "Good morning";
+    if (hour < 17) return "Good afternoon";
+    return "Good evening";
   }
 
+  // Update the greeting display: if user has set a name, show "Good morning, [Name]! Your rights, our priority."
+  // otherwise just "Good morning, Your rights, our priority." without any name placeholder.
+  function updateGreeting() {
+    const greetElem = document.getElementById('dynamicGreeting');
+    const timeSalute = getTimeBasedSalute();
+    if (currentUserName && currentUserName.trim() !== "") {
+      greetElem.innerHTML = `🙏 ${timeSalute}, ${currentUserName}! Your rights, our priority.`;
+    } else {
+      // No name set: show time salute directly followed by the tagline without extra name
+      greetElem.innerHTML = `🙏 ${timeSalute}, Your rights, our priority.`;
+    }
+  }
+
+  // Personalize via save button
   document.getElementById('setNameBtn').addEventListener('click', () => {
     let nameInput = document.getElementById('userName').value.trim();
-    if (nameInput === "") nameInput = "Friend";
-    currentUser = nameInput;
+    if (nameInput === "") {
+      // If user clears input and saves, we treat as removing name -> revert to anonymous greeting
+      currentUserName = null;
+    } else {
+      currentUserName = nameInput;
+    }
     updateGreeting();
-    document.getElementById('aiResponse').innerHTML = `👋 Hi ${currentUser}, I'm Adhikar AI. Ask me about insurance claims, banking disputes, or upload any legal document.`;
+    // Optional friendly feedback in AI response to acknowledge personalization
+    const responseDiv = document.getElementById('aiResponse');
+    if (currentUserName) {
+      responseDiv.innerHTML = `👋 Hello ${currentUserName}, I'm Adhikar AI. Ask me about insurance claims, banking disputes, or upload any document. Your rights always come first.`;
+    } else {
+      responseDiv.innerHTML = `✨ Welcome back! I'm Adhikar AI. Ask about insurance, banking, legal rights or upload a document. Your rights, our priority.`;
+    }
+    // Clear name input field after saving? Not needed, but we keep the name displayed in field for clarity
+    // but we don't force refill.
   });
 
+  // Mode switching between assistant buttons
   const assistBtns = document.querySelectorAll('.assist-btn');
   const cards = document.querySelectorAll('.card');
   
@@ -407,6 +434,7 @@
     });
   });
   
+  // Feature card clicks: prefill example queries and switch mode, but never auto-fill any name
   cards.forEach(card => {
     card.addEventListener('click', () => {
       const domain = card.getAttribute('data-domain');
@@ -422,51 +450,65 @@
     });
   });
   
-  function generateDynamicResponse(query, mode, userName) {
+  // Core AI response generator: respects anonymity if no name is set
+  function generateDynamicResponse(query, mode, hasUserName, userNameValue) {
     if (!query.trim()) {
-      return `🤖 **${userName}**, ask me anything about ${mode.toUpperCase()} rights. Example: "How to challenge an insurance repudiation?"`;
+      const address = hasUserName && userNameValue ? userNameValue : "friend";
+      return `🤖 **${hasUserName ? address : "Citizen"}**, ask me anything about ${mode.toUpperCase()} rights. Example: "How to challenge an insurance repudiation?"`;
     }
     const q = query.toLowerCase();
+    
+    // Helper to get person reference: "you" if no custom name, else name
+    const getReference = () => {
+      if (hasUserName && userNameValue) return userNameValue;
+      return "you";
+    };
+    const ref = getReference();
+    const capRef = hasUserName && userNameValue ? userNameValue : "You";
+    
     if (mode === 'insurance') {
       if (q.includes('reject') || q.includes('denied') || q.includes('claim')) {
-        return `📢 **${userName}**, under IRDAI regulations, if your insurance claim is rejected, you must receive a written reason. You can file a complaint with Insurance Ombudsman within 30 days. Key steps: gather all correspondence, policy copy, and rejection letter. Adhikar.ai suggests drafting a representation citing policy terms.`;
+        return `📢 **${ref}**, under IRDAI regulations, if your insurance claim is rejected, you must receive a written reason. You can file a complaint with Insurance Ombudsman within 30 days. Key steps: gather all correspondence, policy copy, and rejection letter. Adhikar.ai suggests drafting a representation citing policy terms.`;
       } else if (q.includes('exclusion') || q.includes('waiting')) {
-        return `⚠️ **${userName}**, exclusions & waiting periods are standard. However, some exclusions are unfair. Check if the exclusion was explicitly mentioned in the policy wording. You may challenge ambiguous exclusions under the principle of contra proferentem.`;
+        return `⚠️ **${ref}**, exclusions & waiting periods are standard. However, some exclusions are unfair. Check if the exclusion was explicitly mentioned in the policy wording. You may challenge ambiguous exclusions under the principle of contra proferentem.`;
       } else {
-        return `🔍 **${userName}**, for insurance concerns: Always review claim settlement ratio, file timely intimation, and document every call. Need specific help? Share your policy clause.`;
+        return `🔍 **${ref}**, for insurance concerns: Always review claim settlement ratio, file timely intimation, and document every call. Need specific help? Share your policy clause.`;
       }
     } else if (mode === 'banking') {
       if (q.includes('hidden charge') || q.includes('fee')) {
-        return `🏦 **${userName}**, RBI mandates transparency on all charges. Banks cannot levy undisclosed fees. You can raise a dispute through the bank’s internal ombudsman or RBI’s CMS portal. Adhikar.ai can help draft a complaint letter.`;
+        return `🏦 **${ref}**, RBI mandates transparency on all charges. Banks cannot levy undisclosed fees. You can raise a dispute through the bank’s internal ombudsman or RBI’s CMS portal. Adhikar.ai can help draft a complaint letter.`;
       } else if (q.includes('emi') || q.includes('loan')) {
-        return `📉 **${userName}**, under RBI guidelines, penal charges on EMI delays must be reasonable. If you face harassment, escalate to Banking Ombudsman. Also check for unfair reset clauses in your loan agreement.`;
+        return `📉 **${ref}**, under RBI guidelines, penal charges on EMI delays must be reasonable. If you face harassment, escalate to Banking Ombudsman. Also check for unfair reset clauses in your loan agreement.`;
       } else {
-        return `💡 **${userName}**, banking rights include: free monthly statements, zero balance account for basic customers, and compensation for delayed credit reversals. Want a sample notice? Ask me.`;
+        return `💡 **${ref}**, banking rights include: free monthly statements, zero balance account for basic customers, and compensation for delayed credit reversals. Want a sample notice? Ask me.`;
       }
     } else if (mode === 'legal') {
       if (q.includes('consumer')) {
-        return `⚖️ **${userName}**, Consumer Protection Act 2019 gives you right to file complaint in district forum (up to ₹1 crore). Deficiency in service or unfair trade practice – you can claim compensation plus litigation costs.`;
+        return `⚖️ **${ref}**, Consumer Protection Act 2019 gives you right to file complaint in district forum (up to ₹1 crore). Deficiency in service or unfair trade practice – you can claim compensation plus litigation costs.`;
       } else if (q.includes('contract') || q.includes('agreement')) {
-        return `📜 **${userName}**, ambiguous contract terms are interpreted against the drafter. Always highlight unfair clauses before signing. Adhikar.ai can simplify legal jargon and point out risky terms.`;
+        return `📜 **${ref}**, ambiguous contract terms are interpreted against the drafter. Always highlight unfair clauses before signing. Adhikar.ai can simplify legal jargon and point out risky terms.`;
       } else {
-        return `📚 **${userName}**, legal rights vary by context. For employment, tenancy, or consumer issues – document everything and send a legal notice via registered post. Want to draft a notice? I can guide.`;
+        return `📚 **${ref}**, legal rights vary by context. For employment, tenancy, or consumer issues – document everything and send a legal notice via registered post. Want to draft a notice? I can guide.`;
       }
     } else {
       if (q.includes('ombudsman') || q.includes('complaint')) {
-        return `🇮🇳 **${userName}**, you can approach Insurance Ombudsman (for claims up to ₹30L) or Banking Ombudsman (free). For legal matters, State Consumer Commission or Lok Adalat. Adhikar.ai can help find the right authority.`;
+        return `🇮🇳 **${ref}**, you can approach Insurance Ombudsman (for claims up to ₹30L) or Banking Ombudsman (free). For legal matters, State Consumer Commission or Lok Adalat. Adhikar.ai can help find the right authority.`;
       } else {
-        return `🔰 **${userName}**, your fundamental rights include right to information, right against exploitation, and consumer rights. Upload a notice or policy document for precise AI analysis.`;
+        return `🔰 **${ref}**, your fundamental rights include right to information, right against exploitation, and consumer rights. Upload a notice or policy document for precise AI analysis.`;
       }
     }
   }
 
+  // AI ask button logic
   document.getElementById('askAiBtn').addEventListener('click', () => {
     const query = document.getElementById('userQuery').value;
     const responseDiv = document.getElementById('aiResponse');
-    const dynamicAnswer = generateDynamicResponse(query, activeMode, currentUser);
-    responseDiv.innerHTML = `✨ <strong>Adhikar AI says:</strong><br>${dynamicAnswer}<br><small style="display:block; margin-top:8px;">🔹 Powered by Indian regulatory guidelines (IRDAI, RBI, Consumer Protection Act)</small>`;
+    const hasName = currentUserName && currentUserName.trim() !== "";
+    const answer = generateDynamicResponse(query, activeMode, hasName, currentUserName);
+    responseDiv.innerHTML = `✨ <strong>Adhikar AI says:</strong><br>${answer}<br><small style="display:block; margin-top:8px;">🔹 Powered by Indian regulatory guidelines (IRDAI, RBI, Consumer Protection Act)</small>`;
   });
   
+  // File upload dynamic analysis (no name bias, just optional user context)
   const fileUploader = document.getElementById('dynamicFile');
   const previewDiv = document.getElementById('fileAnalysisPreview');
   
@@ -484,17 +526,29 @@
     } else {
       analysis += `🤖 <strong>AI summary</strong><br>General document analysis: no critical red flags detected. Recommend checking termination clause and liability cap.`;
     }
-    analysis += `<br><span style="font-size:0.75rem;">🔍 Dynamic context applied for ${currentUser}</span>`;
+    if (currentUserName && currentUserName.trim() !== "") {
+      analysis += `<br><span style="font-size:0.75rem;">🔍 Context for ${currentUserName}: tailored document insights applied.</span>`;
+    } else {
+      analysis += `<br><span style="font-size:0.75rem;">🔍 Anonymous analysis — save your name for personalized follow-ups.</span>`;
+    }
     previewDiv.innerHTML = analysis;
     previewDiv.style.display = 'block';
   });
   
-  document.getElementById('setNameBtn').click();
-  updateGreeting();
-  setActiveMode('rights');
+  // ENTER key to submit query
   document.getElementById('userQuery').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') document.getElementById('askAiBtn').click();
   });
+  
+  // Initialize page: no default name, greeting based on time only, no "Riya" or auto-set name.
+  // Ensure that no automatic click on setNameBtn happens, and currentUserName remains null.
+  // Also set activeMode to rights
+  setActiveMode('rights');
+  updateGreeting();   // Shows only time-based greeting without any name.
+  
+  // Additionally, ensure that the AI response panel does not show any hardcoded name reference at start.
+  const initialResponseDiv = document.getElementById('aiResponse');
+  initialResponseDiv.innerHTML = `💡 Select a domain or type your concern. Our AI will give personalized guidance based on Indian laws & IRDAI/RBI norms.`;
 </script>
 </body>
 </html>
