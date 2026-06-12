@@ -83,14 +83,14 @@
     <div class="tagline"><span class="tag-p">Local LLM</span><span class="tag-r">Llama 3</span><span class="tag-a">Ollama</span></div>
   </div>
   <div class="nav-section">Main</div>
-  <button class="nav-item active" onclick="showPage('home', this)"><span class="nav-icon">🏠</span> Dashboard</button>
-  <button class="nav-item" onclick="showPage('chat', this)"><span class="nav-icon">🤖</span> AI Assistant</button>
+  <button class="nav-item active" onclick="showPage('home', this)"><span class="nav-icon"></span> Dashboard</button>
+  <button class="nav-item" onclick="showPage('chat', this)"><span class="nav-icon"></span> AI Assistant</button>
   <div class="nav-section">Insurance</div>
-  <button class="nav-item" onclick="showPage('analyzer', this)"><span class="nav-icon">🔍</span> Policy Analyzer</button>
-  <button class="nav-item" onclick="showPage('claims', this)"><span class="nav-icon">🚫</span> Claim Rejection Help</button>
+  <button class="nav-item" onclick="showPage('analyzer', this)"><span class="nav-icon"></span> Policy Analyzer</button>
+  <button class="nav-item" onclick="showPage('claims', this)"><span class="nav-icon"></span> Claim Rejection Help</button>
   <div class="nav-section">Legal</div>
-  <button class="nav-item" onclick="showPage('complaint', this)"><span class="nav-icon">📋</span> Complaint Guide</button>
-  <button class="nav-item" onclick="showPage('draft', this)"><span class="nav-icon">✍️</span> Draft Letter/Notice</button>
+  <button class="nav-item" onclick="showPage('complaint', this)"><span class="nav-icon"></span> Complaint Guide</button>
+  <button class="nav-item" onclick="showPage('draft', this)"><span class="nav-icon"></span> Draft Letter/Notice</button>
   <div class="sidebar-footer"><div id="ollamaIndicator" class="ollama-status" style="justify-content:center; background:rgba(255,255,255,0.1); color:#ccc;" onclick="testOllamaConnection()"><span class="status-dot offline" id="ollamaDot"></span> <span id="ollamaStatusText">Checking...</span></div>© 2025 Adhikar.Ai · Local AI</div>
 </nav>
 
@@ -103,28 +103,28 @@
   <section class="page active" id="page-home">
     <div class="home-hero" style="background:var(--navy); border-radius:20px; padding:40px; color:#fff;"><h1 style="font-size:32px; font-weight:800;">Every Indian Deserves Justice<br>— Real AI, Locally Powered.</h1><p style="margin-top:12px;">Ollama + Llama 3: Insurance, Banking & Consumer Rights</p><button class="btn-primary" style="margin-top:16px;" onclick="showPage('chat', document.querySelectorAll('.nav-item')[1])">🤖 Chat with Local LLM</button></div>
     <div class="stats-row"><div class="card"><div class="stat-val">87%</div><div>Claims challenge-able</div></div><div class="card"><div class="stat-val">₹0</div><div>Ombudsman filing</div></div><div class="card"><div class="stat-val">30</div><div>Days to act</div></div><div class="card"><div class="stat-val">AI</div><div>Offline first</div></div></div>
-    <div class="features-grid"><div class="feature-card" onclick="navTo('chat')"><div class="feature-icon">🤖</div><div class="feature-title">Local LLM Assistant</div><div>Real Llama 3 responses via Ollama</div></div><div class="feature-card" onclick="navTo('analyzer')"><div class="feature-icon">🔍</div><div>Policy Analyzer + PDF</div><div>AI extracts unfair clauses</div></div><div class="feature-card" onclick="navTo('claims')"><div class="feature-icon">🚫</div><div>Claim Fighter</div><div>Action plan by local AI</div></div><div class="feature-card" onclick="navTo('complaint')"><div class="feature-icon">📋</div><div>Legal Guide</div><div>Sections, Remedies, AI insights</div></div><div class="feature-card" onclick="navTo('draft')"><div class="feature-icon">✍️</div><div>Auto-Draft Notices</div><div>AI generated legal letters</div></div></div>
+    <div class="features-grid"><div class="feature-card" onclick="navTo('chat')"><div class="feature-icon"></div><div class="feature-title">Local LLM Assistant</div><div>Real Llama 3 responses via Ollama</div></div><div class="feature-card" onclick="navTo('analyzer')"><div class="feature-icon">🔍</div><div>Policy Analyzer + PDF</div><div>AI extracts unfair clauses</div></div><div class="feature-card" onclick="navTo('claims')"><div class="feature-icon">🚫</div><div>Claim Fighter</div><div>Action plan by local AI</div></div><div class="feature-card" onclick="navTo('complaint')"><div class="feature-icon">📋</div><div>Legal Guide</div><div>Sections, Remedies, AI insights</div></div><div class="feature-card" onclick="navTo('draft')"><div class="feature-icon">✍️</div><div>Auto-Draft Notices</div><div>AI generated legal letters</div></div></div>
   </section>
 
   <section class="page" id="page-chat">
-    <div style="display:flex; gap:8px; margin-bottom:16px;"><button class="mode-chip active" onclick="setMode('general',this)">💬 General Rights</button><button class="mode-chip" onclick="setMode('insurance',this)">🛡️ Insurance</button><button class="mode-chip" onclick="setMode('legal',this)">⚖️ Legal</button></div>
-    <div class="chat-layout"><div class="chat-main"><div class="chat-messages" id="chatMessages"><div class="msg msg-ai"><div class="msg-avatar">⚖️</div><div class="msg-bubble">🦙 Local Llama 3 ready! Ask any legal/insurance/consumer rights query. (Ollama must be running on localhost:11434)</div></div></div><div class="chat-input-area"><div class="chat-input-row"><textarea id="chatInput" rows="2" placeholder="Ask anything (Indian law, claim rejection, etc.)..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea><button class="send-btn" onclick="sendMessage()">➤</button></div></div></div><div class="chat-sidebar-panel card"><div>⚡ Helplines<br>IRDAI:155255<br>RBI:14448<br>Consumer:1800-11-4000</div></div></div>
+    <div style="display:flex; gap:8px; margin-bottom:16px;"><button class="mode-chip active" onclick="setMode('general',this)">General Rights</button><button class="mode-chip" onclick="setMode('insurance',this)">🛡️ Insurance</button><button class="mode-chip" onclick="setMode('legal',this)">⚖️ Legal</button></div>
+    <div class="chat-layout"><div class="chat-main"><div class="chat-messages" id="chatMessages"><div class="msg msg-ai"><div class="msg-avatar"></div><div class="msg-bubble">🦙 Local Llama 3 ready! Ask any legal/insurance/consumer rights query. (Ollama must be running on localhost:11434)</div></div></div><div class="chat-input-area"><div class="chat-input-row"><textarea id="chatInput" rows="2" placeholder="Ask anything (Indian law, claim rejection, etc.)..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea><button class="send-btn" onclick="sendMessage()">➤</button></div></div></div><div class="chat-sidebar-panel card"><div>⚡ Helplines<br>IRDAI:155255<br>RBI:14448<br>Consumer:1800-11-4000</div></div></div>
   </section>
 
-  <section class="page" id="page-analyzer"><div><h2>🔍 Policy Analyzer (AI via Ollama)</h2><p>Upload PDF/TXT or paste text - Llama 3 detects red flags</p></div>
+  <section class="page" id="page-analyzer"><div><h2>Policy Analyzer (AI via Ollama)</h2><p>Upload PDF/TXT or paste text - Llama 3 detects red flags</p></div>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;"><div><div class="upload-zone" onclick="document.getElementById('policyFile').click()" style="border:2px dashed var(--border); border-radius:var(--radius); padding:40px; text-align:center; cursor:pointer;">📄 Upload Policy (PDF/Image/TXT)<input type="file" id="policyFile" accept=".pdf,.jpg,.png,.txt" style="display:none;" onchange="processPolicyFile(this)"></div><textarea id="policyText" rows="5" placeholder="Or paste policy text / rejection clauses here..." class="form-textarea" style="width:100%; margin-top:12px;"></textarea><button class="btn-primary" style="margin-top:12px; width:100%;" onclick="analyzePolicyText()">🔎 Analyze with Llama 3</button></div><div><div id="analyzerPlaceholder" class="card" style="text-align:center;">⬆️ Upload or paste policy</div><div id="analyzerLoading" style="display:none;" class="card"><div class="loading-shimmer"></div></div><div id="analyzerResult" style="display:none;" class="card"></div></div></div>
   </section>
 
-  <section class="page" id="page-claims"><h2>🚫 Claim Rejection Fighter (AI Strategy)</h2>
+  <section class="page" id="page-claims"><h2>Claim Rejection Fighter (AI Strategy)</h2>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;"><div><div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="section-chip" onclick="selectRejectionReason('Pre-existing condition not disclosed')">Pre-existing</button><button class="section-chip" onclick="selectRejectionReason('Late intimation')">Late intimation</button><button class="section-chip" onclick="selectRejectionReason('Policy exclusion')">Exclusion</button><button class="section-chip" onclick="selectRejectionReason('Non-disclosure')">Non-disclosure</button></div><textarea id="customRejectionDesc" rows="3" placeholder="Describe rejection reason..."></textarea><select id="insuranceTypeSelect" class="form-select" style="margin-top:12px;"><option>Health Insurance</option><option>Motor Insurance</option><option>Life Insurance</option></select><button class="btn-primary" style="margin-top:16px; width:100%;" onclick="analyzeRejectionHandler()">Get AI Action Plan</button></div><div><div id="rejectionPlaceholder" class="card" style="text-align:center;">Select reason & get AI legal fight plan</div><div id="rejectionResult" style="display:none;" class="card"></div></div></div>
   </section>
 
-  <section class="page" id="page-complaint"><h2>📋 Legal Guide (AI explained)</h2>
+  <section class="page" id="page-complaint"><h2>Legal Guide (AI explained)</h2>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;" id="legalSectionsGrid"><button class="section-chip" data-section="138">Section 138 (Cheque Bounce)</button><button class="section-chip" data-section="420">Section 420 (Cheating)</button><button class="section-chip" data-section="consumer">Consumer Forum (CPA 2019)</button><button class="section-chip" data-section="irdai">IRDAI Ombudsman</button><button class="section-chip" data-section="rbi">RBI Ombudsman</button><button class="section-chip" data-section="cyber">Cybercrime / IT Act</button></div>
     <div id="complaintGuideOutput" style="display:none; margin-top:24px;" class="card"></div>
   </section>
 
-  <section class="page" id="page-draft"><h2>✍️ AI Draft Legal Letter (Ollama)</h2>
+  <section class="page" id="page-draft"><h2>AI Draft Legal Letter (Ollama)</h2>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;"><div class="card"><input type="text" id="draftName" placeholder="Your full name" class="form-input" style="width:100%; margin-bottom:12px;"><input type="text" id="draftOpposite" placeholder="Opposite party (Company/Regulator)" style="width:100%; margin-bottom:12px;"><textarea id="draftIssue" rows="4" placeholder="Describe your grievance (facts, timeline, policy number etc.)"></textarea><select id="draftTypeSelect" style="margin:12px 0;"><option value="irdai">IRDAI Insurance Ombudsman</option><option value="rbi">RBI Banking Ombudsman</option><option value="consumer">Consumer Forum Complaint</option><option value="legal_notice">Legal Notice under Indian Law</option></select><button class="btn-primary" style="width:100%;" onclick="generateDraftLetter()">✍️ Generate with Llama 3</button></div><div><div id="draftPlaceholder" class="card" style="text-align:center;">Draft letter appears here</div><div id="draftOutputBox" class="draft-output"><button onclick="copyDraftText()" style="float:right; background:#2d3a5e; border:none; color:white; padding:4px 12px; border-radius:20px;">📋 Copy</button><pre id="draftTextContent" style="white-space:pre-wrap; font-family:inherit; margin-top:24px;"></pre></div></div></div>
   </section>
 </div>
@@ -146,14 +146,14 @@
       if(res.ok) {
         ollamaAvailable = true;
         dot.style.background = "#10b981"; dot.classList.remove('offline');
-        textSpan.innerText = `✅ Ollama (${currentModel})`;
+        textSpan.innerText = `Ollama (${currentModel})`;
         showToast("Ollama connected! Ready to use Llama 3.");
       } else throw new Error();
     } catch(e) {
       ollamaAvailable = false;
       dot.style.background = "#ef4444"; dot.classList.add('offline');
-      textSpan.innerText = "⚠️ Ollama offline (run 'ollama serve')";
-      showToast("❌ Ollama not reachable. Start Ollama & pull llama3: ollama pull llama3");
+      textSpan.innerText = " Ollama offline (run 'ollama serve')";
+      showToast(" Ollama not reachable. Start Ollama & pull llama3: ollama pull llama3");
     }
   }
   
@@ -185,7 +185,7 @@
     inp.value = '';
     chatHistory.push({role:'user', content:text});
     let typingDiv = document.createElement('div'); typingDiv.className = 'msg msg-ai'; typingDiv.id = 'typingIndicator';
-    typingDiv.innerHTML = '<div class="msg-avatar">⚖️</div><div class="typing-indicator"><span>⚡</span> AI thinking (Ollama)...</div>';
+    typingDiv.innerHTML = '<div class="msg-avatar"></div><div class="typing-indicator"><span></span> AI thinking (Ollama)...</div>';
     document.getElementById('chatMessages').appendChild(typingDiv);
     try {
       let modePrefix = currentMode === 'insurance' ? "Focus on insurance law/IRDAI:" : (currentMode==='legal'?"Focus on IPC/legal sections:":"");
@@ -194,9 +194,9 @@
       document.getElementById('typingIndicator')?.remove();
       addMsg('ai', aiResponse);
       chatHistory.push({role:'assistant', content:aiResponse});
-    } catch(err) { document.getElementById('typingIndicator')?.remove(); addMsg('ai', "⚠️ Could not reach Ollama. Ensure 'ollama serve' is running and model llama3 pulled. (Error: "+err.message+")"); }
+    } catch(err) { document.getElementById('typingIndicator')?.remove(); addMsg('ai', " Could not reach Ollama. Ensure 'ollama serve' is running and model llama3 pulled. (Error: "+err.message+")"); }
   }
-  function addMsg(role, html) { let c=document.getElementById('chatMessages'); let d=document.createElement('div'); d.className='msg msg-'+role; let avatar=role==='ai'?'⚖️':(userName?userName[0].toUpperCase():'U'); d.innerHTML=`<div class="msg-avatar">${avatar}</div><div><div class="msg-bubble">${html}</div></div>`; c.appendChild(d); c.scrollTop=c.scrollHeight; }
+  function addMsg(role, html) { let c=document.getElementById('chatMessages'); let d=document.createElement('div'); d.className='msg msg-'+role; let avatar=role==='ai'?'':(userName?userName[0].toUpperCase():'U'); d.innerHTML=`<div class="msg-avatar">${avatar}</div><div><div class="msg-bubble">${html}</div></div>`; c.appendChild(d); c.scrollTop=c.scrollHeight; }
   function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
 
   // Policy File processing with PDF text extraction
@@ -238,7 +238,7 @@
       const analysis = await callOllama(prompt, "You are an insurance legal expert. Be precise.");
       document.getElementById('analyzerLoading').style.display = 'none';
       document.getElementById('analyzerResult').style.display = 'block';
-      document.getElementById('analyzerResult').innerHTML = `<h3>🧠 AI Analysis (Llama 3)</h3><div style="white-space:pre-wrap;">${analysis.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">✍️ Draft IRDAI Complaint</button>`;
+      document.getElementById('analyzerResult').innerHTML = `<h3> AI Analysis (Llama 3)</h3><div style="white-space:pre-wrap;">${analysis.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">✍️ Draft IRDAI Complaint</button>`;
     } catch(e) { document.getElementById('analyzerLoading').style.display = 'none'; showToast("Ollama error: "+e.message); }
   }
 
@@ -255,7 +255,7 @@
     try {
       const prompt = `Insurance type: ${type}. Rejection reason: ${reason}. Provide a step-by-step legal action plan under IRDAI rules, including complaint to Ombudsman, deadlines, relevant regulations. Be practical and Indian context.`;
       const actionPlan = await callOllama(prompt, "Insurance ombudsman expert. Provide actionable steps, helplines.");
-      document.getElementById('rejectionResult').innerHTML = `<div><span class="tag">⚖️ AI Legal Strategy</span><div style="white-space:pre-wrap; margin-top:12px;">${actionPlan.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">Generate Complaint Draft</button></div>`;
+      document.getElementById('rejectionResult').innerHTML = `<div><span class="tag">AI Legal Strategy</span><div style="white-space:pre-wrap; margin-top:12px;">${actionPlan.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">Generate Complaint Draft</button></div>`;
     } catch(e) { document.getElementById('rejectionResult').innerHTML = `<div class="card">Ollama error: ${e.message}</div>`; }
   }
 
@@ -269,7 +269,7 @@
       try {
         let prompt = `Explain ${section} under Indian law: legal provisions, procedure for complaint, limitation period, and practical remedies for common citizen.`;
         const response = await callOllama(prompt, "Legal expert, Indian context.");
-        guideDiv.innerHTML = `<div class="card"><h3>📜 ${section.toUpperCase()} - AI Guide</h3><div style="white-space:pre-wrap;">${response.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">Generate Legal Notice</button></div>`;
+        guideDiv.innerHTML = `<div class="card"><h3> ${section.toUpperCase()} - AI Guide</h3><div style="white-space:pre-wrap;">${response.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">Generate Legal Notice</button></div>`;
       } catch(e) { guideDiv.innerHTML = `<div class="card">Error: ${e.message}</div>`; }
     });
   });
@@ -283,13 +283,13 @@
     if(!issue) { showToast("Describe your issue/grievance first"); return; }
     document.getElementById('draftPlaceholder').style.display = 'none';
     document.getElementById('draftOutputBox').classList.add('show');
-    document.getElementById('draftTextContent').innerText = "⏳ AI is drafting your legal notice...";
+    document.getElementById('draftTextContent').innerText = "AI is drafting your legal notice...";
     try {
       let typeLabel = {irdai:"IRDAI Insurance Ombudsman", rbi:"RBI Banking Ombudsman", consumer:"Consumer Forum Complaint", legal_notice:"Formal Legal Notice under Indian Law"}[draftType];
       let prompt = `Draft a formal ${typeLabel} letter. Sender: ${name}. Opposite party: ${opposite}. Grievance details: ${issue}. Include relevant laws (IRDAI regulations, Consumer Protection Act, or NI Act), relief sought, and deadline for reply. Format professional. Add subject, date, and signature block.`;
       const draft = await callOllama(prompt, "Legal drafting expert. Generate formal complaint letters accurate for India.");
       document.getElementById('draftTextContent').innerText = draft;
-      showToast("✅ Draft generated by Llama 3");
+      showToast(" Draft generated by Llama 3");
     } catch(e) { document.getElementById('draftTextContent').innerText = "Ollama error: "+e.message; }
   }
   function copyDraftText() { let text = document.getElementById('draftTextContent').innerText; navigator.clipboard.writeText(text); showToast("Copied to clipboard!"); }
