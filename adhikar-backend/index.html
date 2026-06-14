@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Adhikar.ai – Local LLM Powered (Ollama/Llama 3)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <!-- PDF.js for real PDF text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #0b1f3a; --navy-light: #132845; --blue: #1a56ff; --blue-mid: #2563eb;
+      --teal: #0ea5e9; --teal-light: #e0f2fe; --gold: #f59e0b; --green: #10b981;
+      --red: #ef4444; --bg: #f0f4ff; --surface: #ffffff; --border: #e2e8f0;
+      --text: #0f172a; --text2: #475569; --radius: 14px; --shadow: 0 4px 24px rgba(11,31,58,0.07);
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
+    .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 280px; background: var(--navy); display: flex; flex-direction: column; z-index: 100; transition: transform 0.3s ease; overflow-y: auto; }
+    .sidebar-logo { padding: 20px 16px 8px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .logo-svg { width: 210px; height: auto; filter: drop-shadow(0 4px 8px rgba(0, 198, 255, 0.15)); margin-bottom: 6px; }
+    .brand-text { font-size: 32px; font-weight: 800; color: #ffffff; letter-spacing: -1px; font-family: 'Syne', sans-serif; }
+    .ai-dot { background: linear-gradient(135deg, #00f2fe, #1a56ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tagline { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
+    .tag-p, .tag-r, .tag-a { color: #8aadff; }
+    .nav-section { padding: 20px 16px 6px 20px; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1.5px; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 18px; margin: 2px 12px; border-radius: 8px; cursor: pointer; color: rgba(255,255,255,0.65); font-size: 14px; font-weight: 500; transition: 0.15s; width: calc(100% - 24px); background: transparent; }
+    .nav-item:hover, .nav-item.active { background: rgba(26,86,255,0.3); color: #fff; }
+    .sidebar-footer { margin-top: auto; padding: 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 10px; color: rgba(255,255,255,0.3); text-align: center; }
+    .main { margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; z-index: 50; }
+    .topbar-title { font-size: 18px; font-weight: 700; }
+    .page { display: none; padding: 32px; flex: 1; }
+    .page.active { display: block; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .btn-primary { background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: 12px 22px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-primary:hover { background: #1344e0; transform: translateY(-1px); }
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 28px; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; cursor: pointer; transition: 0.2s; }
+    .feature-card:hover { box-shadow: 0 12px 40px rgba(11,31,58,0.12); transform: translateY(-2px); border-color: var(--blue); }
+    .chat-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; height: calc(100vh - 140px); }
+    .chat-messages { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; height: 100%; margin-bottom: 16px; }
+    .msg { display: flex; gap: 12px; animation: fadeUp 0.3s ease; }
+    .msg-ai .msg-bubble { background: #f8faff; border: 1px solid var(--border); border-top-left-radius: 4px; }
+    .msg-user .msg-bubble { background: var(--navy); color: #fff; border-top-right-radius: 4px; }
+    .msg-bubble { max-width: 72%; padding: 14px 18px; border-radius: 16px; line-height: 1.7; }
+    .chat-input-area { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; }
+    .chat-input-row { display: flex; gap: 10px; }
+    textarea { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; font-family: inherit; background: var(--bg); resize: none; }
+    .send-btn { width: 48px; height: 48px; background: var(--blue); border: none; border-radius: 8px; color: white; cursor: pointer; font-size: 20px; }
+    .ollama-status { display: flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 6px 12px; border-radius: 40px; font-size: 12px; font-weight: 500; cursor: pointer; }
+    .status-dot { width: 10px; height: 10px; border-radius: 10px; background: #10b981; box-shadow: 0 0 4px #10b981; }
+    .status-dot.offline { background: #ef4444; box-shadow: none; }
+    @media (max-width: 900px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .main { margin-left: 0; } .menu-toggle { display: flex; } .stats-row { grid-template-columns: repeat(2,1fr); } }
+    .menu-toggle { display: none; position: fixed; top: 16px; left: 16px; z-index: 200; background: var(--navy); color: white; border: none; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; align-items: center; justify-content: center; }
+    .loading-shimmer { background: linear-gradient(90deg, var(--border) 0%, var(--bg) 50%, var(--border) 100%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; min-height: 100px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .step-card { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 12px; }
+    .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--navy); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+    .draft-output { background: var(--navy); color: #e2e8f0; border-radius: var(--radius); padding: 28px; white-space: pre-wrap; font-size: 13px; line-height: 1.9; display: none; position: relative; }
+    .draft-output.show { display: block; }
+    #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--navy); color: #fff; padding: 12px 24px; border-radius: var(--radius); z-index: 999; transition: transform 0.3s; }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+<div id="toast"></div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <svg class="logo-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="mainGrad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#0b1a30"/><stop offset="100%" stop-color="#00f2fe"/></linearGradient></defs>
+      <path d="M 160 80 L 260 50 L 360 80 L 360 180 C 360 250 260 300 260 300 C 260 300 160 250 160 180 Z" fill="none" stroke="url(#mainGrad)" stroke-width="6" opacity="0.8"/>
+      <path d="M 230 70 L 160 290 H 215 L 255 150 Z" fill="url(#mainGrad)"/>
+      <path d="M 260 70 L 330 290 H 275 L 250 170 Z" fill="url(#mainGrad)"/>
+      <rect x="300" y="150" width="70" height="95" rx="10" fill="rgba(255,255,255,0.7)" stroke="#00c6ff" stroke-width="2"/>
+      <path d="M 315 165 L 335 155 L 355 165 C 355 180 335 190 335 190 C 335 190 315 180 315 165 Z" fill="#00c6ff" opacity="0.6"/>
+    </svg>
+    <h1 class="brand-text">Adhikar<span class="ai-dot">.Ai</span></h1>
+    <div class="tagline"><span class="tag-p">Local LLM</span><span class="tag-r">Llama 3</span><span class="tag-a">Ollama</span></div>
+  </div>
+  <div class="nav-section">Main</div>
+  <button class="nav-item active" onclick="showPage('home', this)"><span class="nav-icon"></span> Dashboard</button>
+  <button class="nav-item" onclick="showPage('chat', this)"><span class="nav-icon"></span> AI Assistant</button>
+  <div class="nav-section">Insurance</div>
+  <button class="nav-item" onclick="showPage('analyzer', this)"><span class="nav-icon">/span> Policy Analyzer</button>
+  <button class="nav-item" onclick="showPage('claims', this)"><span class="nav-icon"></span> Claim Rejection Help</button>
+  <div class="nav-section">Legal</div>
+  <button class="nav-item" onclick="showPage('complaint', this)"><span class="nav-icon"></span> Complaint Guide</button>
+  <button class="nav-item" onclick="showPage('draft', this)"><span class="nav-icon"></span> Draft Letter/Notice</button>
+  <div class="sidebar-footer"><div id="ollamaIndicator" class="ollama-status" style="justify-content:center; background:rgba(255,255,255,0.1); color:#ccc;" onclick="testOllamaConnection()"><span class="status-dot offline" id="ollamaDot"></span> <span id="ollamaStatusText">Checking...</span></div>© 2025 Adhikar.Ai · Local AI</div>
+</nav>
+
+<div class="main">
+  <header class="topbar">
+    <div><div class="topbar-title" id="topbarTitle">Dashboard</div><div class="topbar-sub">Powered by Ollama (Llama 3)</div></div>
+    <div class="topbar-right"><div class="lang-toggle"><button class="lang-btn active" onclick="setLang('en', this)">EN</button><button class="lang-btn" onclick="setLang('hi', this)">हि</button></div><div class="user-pill" onclick="askName()"><div class="user-avatar" id="avatarInitials">?</div><span class="user-name" id="displayName">Set Name</span></div></div>
+  </header>
+
+  <section class="page active" id="page-home">
+    <div class="home-hero" style="background:var(--navy); border-radius:20px; padding:40px; color:#fff;"><h1 style="font-size:32px; font-weight:800;">Every Indian Deserves Justice<br>— Real AI, Locally Powered.</h1><p style="margin-top:12px;">Ollama + Llama 3: Insurance, Banking & Consumer Rights</p><button class="btn-primary" style="margin-top:16px;" onclick="showPage('chat', document.querySelectorAll('.nav-item')[1])">🤖 Chat with Local LLM</button></div>
+    <div class="stats-row"><div class="card"><div class="stat-val">87%</div><div>Claims challenge-able</div></div><div class="card"><div class="stat-val">₹0</div><div>Ombudsman filing</div></div><div class="card"><div class="stat-val">30</div><div>Days to act</div></div><div class="card"><div class="stat-val">AI</div><div>Offline first</div></div></div>
+    <div class="features-grid"><div class="feature-card" onclick="navTo('chat')"><div class="feature-icon"></div><div class="feature-title">Local LLM Assistant</div><div>Real Llama 3 responses via Ollama</div></div><div class="feature-card" onclick="navTo('analyzer')"><div class="feature-icon"></div><div>Policy Analyzer + PDF</div><div>AI extracts unfair clauses</div></div><div class="feature-card" onclick="navTo('claims')"><div class="feature-icon">🚫</div><div>Claim Fighter</div><div>Action plan by local AI</div></div><div class="feature-card" onclick="navTo('complaint')"><div class="feature-icon">📋</div><div>Legal Guide</div><div>Sections, Remedies, AI insights</div></div><div class="feature-card" onclick="navTo('draft')"><div class="feature-icon">✍️</div><div>Auto-Draft Notices</div><div>AI generated legal letters</div></div></div>
+  </section>
+
+  <section class="page" id="page-chat">
+    <div style="display:flex; gap:8px; margin-bottom:16px;"><button class="mode-chip active" onclick="setMode('general',this)">General Rights</button><button class="mode-chip" onclick="setMode('insurance',this)"> Insurance</button><button class="mode-chip" onclick="setMode('legal',this)"> Legal</button></div>
+    <div class="chat-layout"><div class="chat-main"><div class="chat-messages" id="chatMessages"><div class="msg msg-ai"><div class="msg-avatar"></div><div class="msg-bubble">Local Llama 3 ready! Ask any legal/insurance/consumer rights query. (Ollama must be running on localhost:11434)</div></div></div><div class="chat-input-area"><div class="chat-input-row"><textarea id="chatInput" rows="2" placeholder="Ask anything (Indian law, claim rejection, etc.)..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea><button class="send-btn" onclick="sendMessage()">➤</button></div></div></div><div class="chat-sidebar-panel card"><div>⚡ Helplines<br>IRDAI:155255<br>RBI:14448<br>Consumer:1800-11-4000</div></div></div>
+  </section>
+
+  <section class="page" id="page-analyzer"><div><h2> Policy Analyzer (AI via Ollama)</h2><p>Upload PDF/TXT or paste text - Llama 3 detects red flags</p></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;"><div><div class="upload-zone" onclick="document.getElementById('policyFile').click()" style="border:2px dashed var(--border); border-radius:var(--radius); padding:40px; text-align:center; cursor:pointer;">Upload Policy (PDF/Image/TXT)<input type="file" id="policyFile" accept=".pdf,.jpg,.png,.txt" style="display:none;" onchange="processPolicyFile(this)"></div><textarea id="policyText" rows="5" placeholder="Or paste policy text / rejection clauses here..." class="form-textarea" style="width:100%; margin-top:12px;"></textarea><button class="btn-primary" style="margin-top:12px; width:100%;" onclick="analyzePolicyText()">🔎 Analyze with Llama 3</button></div><div><div id="analyzerPlaceholder" class="card" style="text-align:center;">⬆️ Upload or paste policy</div><div id="analyzerLoading" style="display:none;" class="card"><div class="loading-shimmer"></div></div><div id="analyzerResult" style="display:none;" class="card"></div></div></div>
+  </section>
+
+  <section class="page" id="page-claims"><h2>Claim Rejection Fighter (AI Strategy)</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;"><div><div style="display:flex; gap:8px; flex-wrap:wrap;"><button class="section-chip" onclick="selectRejectionReason('Pre-existing condition not disclosed')">Pre-existing</button><button class="section-chip" onclick="selectRejectionReason('Late intimation')">Late intimation</button><button class="section-chip" onclick="selectRejectionReason('Policy exclusion')">Exclusion</button><button class="section-chip" onclick="selectRejectionReason('Non-disclosure')">Non-disclosure</button></div><textarea id="customRejectionDesc" rows="3" placeholder="Describe rejection reason..."></textarea><select id="insuranceTypeSelect" class="form-select" style="margin-top:12px;"><option>Health Insurance</option><option>Motor Insurance</option><option>Life Insurance</option></select><button class="btn-primary" style="margin-top:16px; width:100%;" onclick="analyzeRejectionHandler()">Get AI Action Plan</button></div><div><div id="rejectionPlaceholder" class="card" style="text-align:center;">Select reason & get AI legal fight plan</div><div id="rejectionResult" style="display:none;" class="card"></div></div></div>
+  </section>
+
+  <section class="page" id="page-complaint"><h2>Legal Guide (AI explained)</h2>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;" id="legalSectionsGrid"><button class="section-chip" data-section="138">Section 138 (Cheque Bounce)</button><button class="section-chip" data-section="420">Section 420 (Cheating)</button><button class="section-chip" data-section="consumer">Consumer Forum (CPA 2019)</button><button class="section-chip" data-section="irdai">IRDAI Ombudsman</button><button class="section-chip" data-section="rbi">RBI Ombudsman</button><button class="section-chip" data-section="cyber">Cybercrime / IT Act</button></div>
+    <div id="complaintGuideOutput" style="display:none; margin-top:24px;" class="card"></div>
+  </section>
+
+  <section class="page" id="page-draft"><h2>AI Draft Legal Letter (Ollama)</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;"><div class="card"><input type="text" id="draftName" placeholder="Your full name" class="form-input" style="width:100%; margin-bottom:12px;"><input type="text" id="draftOpposite" placeholder="Opposite party (Company/Regulator)" style="width:100%; margin-bottom:12px;"><textarea id="draftIssue" rows="4" placeholder="Describe your grievance (facts, timeline, policy number etc.)"></textarea><select id="draftTypeSelect" style="margin:12px 0;"><option value="irdai">IRDAI Insurance Ombudsman</option><option value="rbi">RBI Banking Ombudsman</option><option value="consumer">Consumer Forum Complaint</option><option value="legal_notice">Legal Notice under Indian Law</option></select><button class="btn-primary" style="width:100%;" onclick="generateDraftLetter()">✍️ Generate with Llama 3</button></div><div><div id="draftPlaceholder" class="card" style="text-align:center;">Draft letter appears here</div><div id="draftOutputBox" class="draft-output"><button onclick="copyDraftText()" style="float:right; background:#2d3a5e; border:none; color:white; padding:4px 12px; border-radius:20px;">📋 Copy</button><pre id="draftTextContent" style="white-space:pre-wrap; font-family:inherit; margin-top:24px;"></pre></div></div></div>
+  </section>
+</div>
+
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+  let currentLang = 'en', currentMode = 'general', userName = localStorage.getItem('adhikar_name') || null;
+  let ollamaAvailable = false, currentModel = "llama3";
+  let chatHistory = [];
+
+  // ---------- OLLAMA CORE ----------
+  async function testOllamaConnection() {
+    const dot = document.getElementById('ollamaDot');
+    const textSpan = document.getElementById('ollamaStatusText');
+    dot.classList.remove('offline'); dot.style.background = "#facc15";
+    textSpan.innerText = "Pinging...";
+    try {
+      const res = await fetch('http://localhost:11434/api/tags', { method: 'GET', mode: 'cors' });
+      if(res.ok) {
+        ollamaAvailable = true;
+        dot.style.background = "#10b981"; dot.classList.remove('offline');
+        textSpan.innerText = `✅ Ollama (${currentModel})`;
+        showToast("Ollama connected! Ready to use Llama 3.");
+      } else throw new Error();
+    } catch(e) {
+      ollamaAvailable = false;
+      dot.style.background = "#ef4444"; dot.classList.add('offline');
+      textSpan.innerText = "⚠️ Ollama offline (run 'ollama serve')";
+      showToast("❌ Ollama not reachable. Start Ollama & pull llama3: ollama pull llama3");
+    }
+  }
+  
+  async function callOllama(prompt, systemPrompt = "You are Adhikar.AI, an expert in Indian insurance, banking, consumer laws & legal remedies. Answer concisely but thoroughly in plain English or Hinglish.") {
+    if(!ollamaAvailable) { await testOllamaConnection(); if(!ollamaAvailable) throw new Error("Ollama not available"); }
+    const response = await fetch('http://localhost:11434/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: currentModel, prompt: `${systemPrompt}\n\nUser query: ${prompt}`, stream: false, options: { temperature: 0.3 } })
+    });
+    const data = await response.json();
+    return data.response || "No response from model.";
+  }
+
+  // global UI helpers
+  function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+  function showPage(id, el) { document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById('page-'+id).classList.add('active'); document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); if(el) el.classList.add('active'); if(window.innerWidth<900) document.getElementById('sidebar').classList.remove('open'); }
+  function navTo(id) { const idx={home:0,chat:1,analyzer:2,claims:3,complaint:4,draft:5}; showPage(id, document.querySelectorAll('.nav-item')[idx[id]]); }
+  function askName() { let n=prompt("Enter your name:"); if(n && n.trim()) { userName=n.trim(); localStorage.setItem('adhikar_name',userName); document.getElementById('displayName').innerText=userName; document.getElementById('avatarInitials').innerText=userName.slice(0,2).toUpperCase(); showToast(`Welcome, ${userName}!`); } }
+  function setLang(lang,btn){ currentLang=lang; document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  function setMode(mode,btn){ currentMode=mode; document.querySelectorAll('.mode-chip').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+  function showToast(msg) { let t=document.getElementById('toast'); t.innerText=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+
+  // AI CHAT (real)
+  async function sendMessage() {
+    let inp = document.getElementById('chatInput'); let text = inp.value.trim();
+    if(!text) return;
+    addMsg('user', escapeHtml(text));
+    inp.value = '';
+    chatHistory.push({role:'user', content:text});
+    let typingDiv = document.createElement('div'); typingDiv.className = 'msg msg-ai'; typingDiv.id = 'typingIndicator';
+    typingDiv.innerHTML = '<div class="msg-avatar">⚖️</div><div class="typing-indicator"><span>⚡</span> AI thinking (Ollama)...</div>';
+    document.getElementById('chatMessages').appendChild(typingDiv);
+    try {
+      let modePrefix = currentMode === 'insurance' ? "Focus on insurance law/IRDAI:" : (currentMode==='legal'?"Focus on IPC/legal sections:":"");
+      let fullPrompt = `${modePrefix}\n${text}`;
+      const aiResponse = await callOllama(fullPrompt, "You are Adhikar AI, Indian legal rights assistant. Give actionable advice.");
+      document.getElementById('typingIndicator')?.remove();
+      addMsg('ai', aiResponse);
+      chatHistory.push({role:'assistant', content:aiResponse});
+    } catch(err) { document.getElementById('typingIndicator')?.remove(); addMsg('ai', "⚠️ Could not reach Ollama. Ensure 'ollama serve' is running and model llama3 pulled. (Error: "+err.message+")"); }
+  }
+  function addMsg(role, html) { let c=document.getElementById('chatMessages'); let d=document.createElement('div'); d.className='msg msg-'+role; let avatar=role==='ai'?'⚖️':(userName?userName[0].toUpperCase():'U'); d.innerHTML=`<div class="msg-avatar">${avatar}</div><div><div class="msg-bubble">${html}</div></div>`; c.appendChild(d); c.scrollTop=c.scrollHeight; }
+  function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  // Policy File processing with PDF text extraction
+  async function processPolicyFile(fileInput) {
+    let file = fileInput.files[0];
+    if(!file) return;
+    document.getElementById('analyzerPlaceholder').style.display = 'none';
+    document.getElementById('analyzerLoading').style.display = 'block';
+    let extractedText = "";
+    try {
+      if(file.type === 'application/pdf') {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = "";
+        for(let i=1; i<=pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          const strings = content.items.map(item => item.str);
+          fullText += strings.join(" ") + "\n";
+        }
+        extractedText = fullText.slice(0, 12000);
+      } else {
+        extractedText = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.readAsText(file);
+        });
+      }
+      document.getElementById('policyText').value = extractedText;
+      await analyzePolicyTextWithContent(extractedText);
+    } catch(e) { showToast("Error reading file: "+e.message); document.getElementById('analyzerLoading').style.display = 'none'; document.getElementById('analyzerPlaceholder').style.display = 'block'; }
+  }
+  async function analyzePolicyText() { let txt = document.getElementById('policyText').value.trim(); if(!txt) { showToast("Paste policy text first"); return; } await analyzePolicyTextWithContent(txt); }
+  async function analyzePolicyTextWithContent(content) {
+    document.getElementById('analyzerPlaceholder').style.display = 'none';
+    document.getElementById('analyzerLoading').style.display = 'block';
+    try {
+      const prompt = `Analyze this insurance policy snippet for red flags, unfair clauses, hidden exclusions, waiting periods, sub-limits. Provide score out of 100 (higher = consumer-friendly). List each risk with severity (High/Medium/Low). Format using bullet points. Policy text: ${content.substring(0, 7000)}`;
+      const analysis = await callOllama(prompt, "You are an insurance legal expert. Be precise.");
+      document.getElementById('analyzerLoading').style.display = 'none';
+      document.getElementById('analyzerResult').style.display = 'block';
+      document.getElementById('analyzerResult').innerHTML = `<h3>🧠 AI Analysis (Llama 3)</h3><div style="white-space:pre-wrap;">${analysis.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">✍️ Draft IRDAI Complaint</button>`;
+    } catch(e) { document.getElementById('analyzerLoading').style.display = 'none'; showToast("Ollama error: "+e.message); }
+  }
+
+  // Claim rejection AI
+  let selectedRejectionReason = '';
+  function selectRejectionReason(reason) { selectedRejectionReason = reason; document.querySelectorAll('#page-claims .section-chip').forEach(c=>c.classList.remove('active')); if(event.target) event.target.classList.add('active'); }
+  async function analyzeRejectionHandler() {
+    let reason = selectedRejectionReason || document.getElementById('customRejectionDesc').value.trim();
+    if(!reason) { showToast("Select or describe rejection reason"); return; }
+    let type = document.getElementById('insuranceTypeSelect').value;
+    document.getElementById('rejectionPlaceholder').style.display = 'none';
+    document.getElementById('rejectionResult').style.display = 'block';
+    document.getElementById('rejectionResult').innerHTML = '<div class="loading-shimmer"></div>';
+    try {
+      const prompt = `Insurance type: ${type}. Rejection reason: ${reason}. Provide a step-by-step legal action plan under IRDAI rules, including complaint to Ombudsman, deadlines, relevant regulations. Be practical and Indian context.`;
+      const actionPlan = await callOllama(prompt, "Insurance ombudsman expert. Provide actionable steps, helplines.");
+      document.getElementById('rejectionResult').innerHTML = `<div><span class="tag">⚖️ AI Legal Strategy</span><div style="white-space:pre-wrap; margin-top:12px;">${actionPlan.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">Generate Complaint Draft</button></div>`;
+    } catch(e) { document.getElementById('rejectionResult').innerHTML = `<div class="card">Ollama error: ${e.message}</div>`; }
+  }
+
+  // Legal guide (AI)
+  document.querySelectorAll('#legalSectionsGrid .section-chip').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      let section = this.getAttribute('data-section');
+      let guideDiv = document.getElementById('complaintGuideOutput');
+      guideDiv.style.display = 'block';
+      guideDiv.innerHTML = '<div class="loading-shimmer" style="height:120px;"></div>';
+      try {
+        let prompt = `Explain ${section} under Indian law: legal provisions, procedure for complaint, limitation period, and practical remedies for common citizen.`;
+        const response = await callOllama(prompt, "Legal expert, Indian context.");
+        guideDiv.innerHTML = `<div class="card"><h3>📜 ${section.toUpperCase()} - AI Guide</h3><div style="white-space:pre-wrap;">${response.replace(/\n/g,'<br>')}</div><button class="btn-primary" style="margin-top:16px;" onclick="navTo('draft')">Generate Legal Notice</button></div>`;
+      } catch(e) { guideDiv.innerHTML = `<div class="card">Error: ${e.message}</div>`; }
+    });
+  });
+
+  // Draft letter using Ollama
+  async function generateDraftLetter() {
+    let name = document.getElementById('draftName').value.trim() || "Citizen";
+    let opposite = document.getElementById('draftOpposite').value.trim() || "Opposite Party";
+    let issue = document.getElementById('draftIssue').value.trim();
+    let draftType = document.getElementById('draftTypeSelect').value;
+    if(!issue) { showToast("Describe your issue/grievance first"); return; }
+    document.getElementById('draftPlaceholder').style.display = 'none';
+    document.getElementById('draftOutputBox').classList.add('show');
+    document.getElementById('draftTextContent').innerText = " AI is drafting your legal notice...";
+    try {
+      let typeLabel = {irdai:"IRDAI Insurance Ombudsman", rbi:"RBI Banking Ombudsman", consumer:"Consumer Forum Complaint", legal_notice:"Formal Legal Notice under Indian Law"}[draftType];
+      let prompt = `Draft a formal ${typeLabel} letter. Sender: ${name}. Opposite party: ${opposite}. Grievance details: ${issue}. Include relevant laws (IRDAI regulations, Consumer Protection Act, or NI Act), relief sought, and deadline for reply. Format professional. Add subject, date, and signature block.`;
+      const draft = await callOllama(prompt, "Legal drafting expert. Generate formal complaint letters accurate for India.");
+      document.getElementById('draftTextContent').innerText = draft;
+      showToast(" Draft generated by Llama 3");
+    } catch(e) { document.getElementById('draftTextContent').innerText = "Ollama error: "+e.message; }
+  }
+  function copyDraftText() { let text = document.getElementById('draftTextContent').innerText; navigator.clipboard.writeText(text); showToast("Copied to clipboard!"); }
+
+  // init
+  window.onload = () => { testOllamaConnection(); if(userName){ document.getElementById('displayName').innerText=userName; document.getElementById('avatarInitials').innerText=userName.slice(0,2).toUpperCase(); } };
+  window.toggleSidebar=toggleSidebar; window.showPage=showPage; window.navTo=navTo; window.sendMessage=sendMessage; window.setLang=setLang; window.setMode=setMode; window.processPolicyFile=processPolicyFile; window.analyzePolicyText=analyzePolicyText; window.selectRejectionReason=selectRejectionReason; window.analyzeRejectionHandler=analyzeRejectionHandler; window.generateDraftLetter=generateDraftLetter; window.copyDraftText=copyDraftText; window.askName=askName; window.testOllamaConnection=testOllamaConnection;
+</script>
+</body>
+</html>

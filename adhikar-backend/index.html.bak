@@ -1,0 +1,42 @@
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="hero-logo">
+      <img src="assets/logo.png" alt="Adhikar.ai">
+    </div>
+
+    <div class="badge">
+      AI Powered Rights Intelligence
+    </div>
+
+    <h1>
+      Know Your Rights.
+      <br>
+      Protect Your Future.
+    </h1>
+
+    <p class="hero-description">
+      India's AI-powered platform for
+      Insurance Claims,
+      Banking Disputes,
+      Legal Guidance,
+      Banking Rights,
+      and Citizen Protection.
+    </p>
+
+    <div class="cta-group">
+
+      <a href="#" class="btn primary">
+        Upload Document
+      </a>
+
+      <a href="#" class="btn secondary">
+        Talk To AI
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
